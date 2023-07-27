@@ -11,17 +11,17 @@ import riccardogulin.u5d4jpa.exceptions.ItemNotFoundException;
 
 @Service // Specializzazione di @Component
 @Slf4j
-public class UsersService {
+public class UsersService implements IUsersDAO {
 	@Autowired
 	private UsersRepository usersRepo;
 
-	public void create(User user) {
+	public void save(User user) {
 		// eventuale logica addizionale custom...
 		usersRepo.save(user);
 		log.info(user.getName() + " salvato!");
 	}
 
-	public List<User> find() {
+	public List<User> findAll() {
 		return usersRepo.findAll();
 	}
 
@@ -54,5 +54,9 @@ public class UsersService {
 
 	public long count() {
 		return usersRepo.count();
+	}
+
+	public List<User> findByPartialNameIgnoreCase(String name) {
+		return usersRepo.findByNameStartingWithIgnoreCase(name);
 	}
 }
